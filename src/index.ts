@@ -1,1 +1,3 @@
-console.log("Radi");
+import { drawLoginPage } from "./components/loginPage";
+
+drawLoginPage();

@@ -1,0 +1,107 @@
+html {
+    margin: 0;
+    height: 100%;
+}
+
+body {
+    background-color: #151515;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    height: 100%;
+}
+
+.loginContainer {
+    background-color: #301B3F;
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    align-self: center;
+    height: 80%;
+    margin: auto;
+    margin-top: 10%;
+    box-shadow:
+        inset 0 0 50px #fff,
+        inset 20px 0 80px rgb(80, 23, 80),
+        inset -20px 0 80px rgb(28, 89, 89),
+        inset 20px 0 300px rgb(80, 23, 80),
+        inset -20px 0 300px rgb(28, 89, 89),
+        0 0 20px #fff,
+        -10px 0 40px rgb(80, 23, 80),
+        10px 0 40px rgb(28, 89, 89);
+    border-radius: 10%;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.title {
+    align-self: center;
+    font-size: 30px;
+    margin: 20%;
+    margin-bottom: 10%;
+    text-align: center;
+    color: aliceblue;
+    font-weight: bold;
+}
+
+.loginButton {
+    appearance: button;
+    background-color: #4D4AE8;
+    background-image: linear-gradient(180deg, rgba(255, 255, 255, .15), rgba(255, 255, 255, 0));
+    border: 1px solid #4D4AE8;
+    border-radius: 1rem;
+    box-shadow: rgba(255, 255, 255, 0.15) 0 1px 0 inset, rgba(46, 54, 80, 0.075) 0 1px 1px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-family: Inter, sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.5;
+    padding: .5rem 1rem;
+    text-align: center;
+    text-transform: none;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: middle;
+    display: flex;
+    width: 30%;
+    margin: 20%;
+    margin-top: 15%;
+    align-self: center;
+    justify-content: center;
+    justify-self: center;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.loginInputDiv {
+    width: 80%;
+    margin-top: 5%;
+    margin-left: 10%;
+    margin-right: 10%;
+    justify-content: center;
+    justify-items: flex-start;
+    align-self: center;
+    align-content: center;
+    justify-self: center;
+}
+
+.loginInput {
+    padding: 10px;
+    border-radius: 10px;
+    width: 70%;
+}
+
+.loginLabel {
+    margin-left: 5%;
+    color: aliceblue;
+}
+
+.errorLabel {
+    margin-top: 5%;
+    color: red;
+    visibility: hidden;
+}
