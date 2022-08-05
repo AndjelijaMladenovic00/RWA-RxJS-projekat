@@ -1,12 +1,14 @@
+import { Subject } from "rxjs";
 import { initLoginPage } from "../logic/loginLogic";
+import { User } from "../models/user";
 
-export function drawLoginPage() {
+export function drawLoginPage(router: Subject<[Number, User | null]>) {
   document.body.innerHTML = "";
 
-  let loginContainer = document.createElement("div");
+  const loginContainer: HTMLElement = document.createElement("div");
   loginContainer.className = "loginContainer";
 
-  let loginTitle = document.createElement("label");
+  const loginTitle: HTMLElement = document.createElement("label");
   loginTitle.textContent = "Login to play!";
   loginTitle.className = "title";
   loginContainer.appendChild(loginTitle);
@@ -15,13 +17,13 @@ export function drawLoginPage() {
 
   loginContainer.appendChild(drawPasswordInput());
 
-  let errorLabel = document.createElement("label");
+  const errorLabel: HTMLElement = document.createElement("label");
   errorLabel.id = "errorLabel";
   errorLabel.className = "errorLabel";
   errorLabel.textContent = "Wrong email and/or password!";
   loginContainer.appendChild(errorLabel);
 
-  let loginButton = document.createElement("button");
+  const loginButton: HTMLElement = document.createElement("button");
   loginButton.textContent = "Login";
   loginButton.className = "loginButton";
   loginButton.id = "loginButton";
@@ -29,20 +31,20 @@ export function drawLoginPage() {
 
   document.body.appendChild(loginContainer);
 
-  initLoginPage();
+  initLoginPage(router);
 }
 
 function drawEmailInput(): HTMLElement {
-  let emailDiv = document.createElement("div");
+  const emailDiv: HTMLElement = document.createElement("div");
   emailDiv.className = "loginInputDiv";
 
-  let emailInput = document.createElement("input");
+  const emailInput: HTMLElement = document.createElement("input");
   emailInput.setAttribute("type", "email");
   emailInput.className = "loginInput";
-  emailInput.id = "loginInput";
+  emailInput.id = "emailInput";
   emailDiv.appendChild(emailInput);
 
-  let emailLabel = document.createElement("label");
+  const emailLabel: HTMLElement = document.createElement("label");
   emailLabel.textContent = "Email";
   emailLabel.className = "loginLabel";
   emailDiv.appendChild(emailLabel);
@@ -51,16 +53,16 @@ function drawEmailInput(): HTMLElement {
 }
 
 function drawPasswordInput(): HTMLElement {
-  let passwordDiv = document.createElement("div");
+  const passwordDiv: HTMLElement = document.createElement("div");
   passwordDiv.className = "loginInputDiv";
 
-  let passwordInput = document.createElement("input");
+  const passwordInput: HTMLElement = document.createElement("input");
   passwordInput.setAttribute("type", "password");
   passwordInput.className = "loginInput";
   passwordInput.id = "passwordInput";
   passwordDiv.appendChild(passwordInput);
 
-  let passwordLabel = document.createElement("label");
+  const passwordLabel: HTMLElement = document.createElement("label");
   passwordLabel.textContent = "Password";
   passwordLabel.className = "loginLabel";
   passwordDiv.appendChild(passwordLabel);
