@@ -1,0 +1,30 @@
+{
+  "name": "rwa-rxjs-projekat",
+  "version": "1.0.0",
+  "description": "Projekat radjen u svrhe polaganja ispita iz RWA",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack serve --mode development",
+    "watch": "webpack --watch --config webpack.config.js --mode development",
+    "api": "json-server --watch users.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AndjelijaMladenovic00/RWA-RxJS-projekat.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AndjelijaMladenovic00/RWA-RxJS-projekat/issues"
+  },
+  "homepage": "https://github.com/AndjelijaMladenovic00/RWA-RxJS-projekat#readme",
+  "dependencies": {
+    "json-server": "^0.17.0",
+    "rxjs": "^7.5.6",
+    "ts-loader": "^9.3.1",
+    "typescript": "^4.7.4",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
+  }
+}
