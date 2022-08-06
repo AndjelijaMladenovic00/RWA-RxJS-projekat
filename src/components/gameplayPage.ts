@@ -31,13 +31,13 @@ function drawHeader(user: User) {
   headerSubContainerRight.className = "headerSubContainer";
   headerContainer.appendChild(headerSubContainerRight);
 
-  const scoreboardButton = document.createElement("button");
+  const scoreboardButton: HTMLButtonElement = document.createElement("button");
   scoreboardButton.className = "button";
   scoreboardButton.textContent = "Scoreboard";
   scoreboardButton.id = "scoreboardButton";
   headerSubContainerLeft.appendChild(scoreboardButton);
 
-  const logoutButton = document.createElement("button");
+  const logoutButton: HTMLButtonElement = document.createElement("button");
   logoutButton.className = "button";
   logoutButton.textContent = "Log out";
   logoutButton.id = "logoutButton";
@@ -53,21 +53,19 @@ function createUserInfoRow(
   data: String | Number,
   id: string
 ): HTMLDivElement {
-  const rowDiv = document.createElement("div");
+  const rowDiv: HTMLDivElement = document.createElement("div");
   rowDiv.className = "userInfoRow";
 
-  const rowLabel = document.createElement("label");
+  const rowLabel: HTMLLabelElement = document.createElement("label");
   rowLabel.className = "userInfoRowLabel";
   rowLabel.textContent = label;
   rowDiv.appendChild(rowLabel);
 
-  const rowDataLabel = document.createElement("label");
+  const rowDataLabel: HTMLLabelElement = document.createElement("label");
   rowDataLabel.textContent = "" + data;
   rowDataLabel.id = id;
   rowDataLabel.className = "userInfoDataLabel";
   rowDiv.appendChild(rowDataLabel);
-
-  console.log(data);
 
   return rowDiv;
 }
@@ -82,4 +80,124 @@ function drawUserInfo(user: User, container: HTMLDivElement) {
   container.appendChild(createUserInfoRow("Current score:", 0, "currentScore"));
 }
 
-function drawGameplay() {}
+function drawGameplay() {
+  drawBoxes();
+  drawNumbersDisplay();
+  drawPlayerInputBoxes();
+  drawStartButton();
+}
+
+function drawBoxes() {
+  const boxesMainContainer: HTMLDivElement = document.createElement("div");
+  boxesMainContainer.className = "boxesMainContainer";
+
+  const boxesLabel: HTMLLabelElement = document.createElement("label");
+  boxesLabel.id = "boxesLabel";
+  boxesLabel.className = "minorTitle";
+  boxesLabel.textContent = "The boxes are ready for you to play!";
+  boxesMainContainer.appendChild(boxesLabel);
+
+  const boxesExplanationLabel: HTMLLabelElement =
+    document.createElement("label");
+  boxesExplanationLabel.className = "boxesExplanationLabel";
+  boxesExplanationLabel.id = "boxesExplanationLabel";
+  boxesExplanationLabel.textContent =
+    "When you start the game, a random number between 1-39 will be chosen from each box. Numbers can repeat between boxes. There will be 21 number in total!";
+  boxesMainContainer.appendChild(boxesExplanationLabel);
+
+  const boxesContainer: HTMLDivElement = document.createElement("div");
+  boxesContainer.className = "boxesContainer";
+  boxesMainContainer.appendChild(boxesContainer);
+
+  let id: string = "";
+
+  for (let i = 1; i <= 7; i++) {
+    id = "box" + i;
+    drawBox(id, boxesContainer);
+  }
+
+  document.body.appendChild(boxesMainContainer);
+}
+
+function drawNumbersDisplay() {
+  const numbersContainer: HTMLDivElement = document.createElement("div");
+  numbersContainer.className = "numbersContainer";
+
+  const lastNumberLabel: HTMLLabelElement = document.createElement("label");
+  lastNumberLabel.className = "lastNumber";
+  lastNumberLabel.id = "lastNumber";
+  numbersContainer.appendChild(lastNumberLabel);
+
+  const numbersLabel: HTMLLabelElement = document.createElement("label");
+  numbersLabel.className = "numbers";
+  numbersLabel.id = "numbers";
+  numbersContainer.appendChild(numbersLabel);
+
+  document.body.appendChild(numbersContainer);
+}
+
+function drawPlayerInputBoxes() {
+  const playerInputContainer: HTMLDivElement = document.createElement("div");
+  playerInputContainer.className = "playerInputContainer";
+
+  const playerInputLabel: HTMLLabelElement = document.createElement("label");
+  playerInputLabel.id = "playerInputLabel";
+  playerInputLabel.className = "minorTitle";
+  playerInputLabel.textContent = "Insert your numbers!";
+  playerInputContainer.appendChild(playerInputLabel);
+
+  const playerInputBoxesContainer: HTMLDivElement =
+    document.createElement("div");
+  playerInputBoxesContainer.className = "playerInputBoxesContainer";
+
+  let idBox: string = "";
+  let idButton: string = "";
+
+  for (let i = 1; i < 7; i++) {
+    idBox = "inputBox" + i;
+    idButton = "inputButton" + i;
+    drawInputBox(idBox, idButton, playerInputBoxesContainer);
+  }
+
+  playerInputContainer.appendChild(playerInputBoxesContainer);
+
+  document.body.appendChild(playerInputContainer);
+}
+
+function drawBox(id: string, container: HTMLDivElement) {
+  const box: HTMLButtonElement = document.createElement("button");
+  box.id = id;
+  box.className = "box-inactive";
+  container.appendChild(box);
+}
+
+function drawInputBox(
+  idBox: string,
+  idButton: string,
+  container: HTMLDivElement
+) {
+  const inputBoxContainer: HTMLDivElement = document.createElement("div");
+  inputBoxContainer.className = "inputBoxContainer";
+
+  const inputBox: HTMLInputElement = document.createElement("input");
+  inputBox.setAttribute("type", "number");
+  inputBox.className = "inputBox";
+  inputBox.id = idBox;
+  inputBoxContainer.appendChild(inputBox);
+
+  const inputButton: HTMLButtonElement = document.createElement("button");
+  inputButton.textContent = "OK";
+  inputButton.className = "inputButton";
+  inputButton.id = idButton;
+  inputBoxContainer.appendChild(inputButton);
+
+  container.appendChild(inputBoxContainer);
+}
+
+function drawStartButton() {
+  const startButton: HTMLButtonElement = document.createElement("button");
+  startButton.textContent = "START";
+  startButton.className = "startButton";
+  startButton.id = "startButton";
+  document.body.appendChild(startButton);
+}
