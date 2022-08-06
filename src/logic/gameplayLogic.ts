@@ -5,16 +5,16 @@ import {
   fromEvent,
   interval,
   map,
-  merge,
+  mergeWith,
   Observable,
   Subject,
   take,
   takeUntil,
-  zip,
 } from "rxjs";
 import { CurrentGameState } from "../models/currentGameState";
 import { User } from "../models/user";
 import { gameSetup } from "../enums/gameSetup";
+import { urlConst } from "../constants/url";
 
 export function initGameplay(
   router: Subject<[Number, User | null]>,
@@ -24,6 +24,8 @@ export function initGameplay(
   gameState.player = user;
 
   setUpGame("beginning", gameState);
+
+  setUpButtons(router, gameState);
 }
 
 function setUpGame(setup: gameSetup, gameState: CurrentGameState) {
@@ -36,12 +38,20 @@ function setUpView(setup: gameSetup) {
     setVisibilityOn("boxesLabel");
     setVisibilityOn("boxesExplanationLabel");
     setVisibilityOn("playerInputLabel");
+    setVisibilityOff("score");
 
     let buttonId: string = "";
+    let inputId: string = "";
     for (let i = 1; i <= 7; i++) {
       buttonId = "inputButton" + i;
       setVisibilityOff(buttonId);
       disableButton(buttonId);
+
+      inputId = "inputBox" + i;
+      enableInput(inputId);
+
+      const box: HTMLElement = document.getElementById("box" + i);
+      box.className = "box-inactive";
     }
 
     setVisibilityOff("startButton");
@@ -65,7 +75,16 @@ function setUpView(setup: gameSetup) {
   } else {
     setVisibilityOn("playAgainButton");
     enableButton("playAgainButton");
+    setVisibilityOn("score");
   }
+}
+
+function enableInput(id: string) {
+  const inputBox: HTMLInputElement = <HTMLInputElement>(
+    document.getElementById(id)
+  );
+  inputBox.disabled = false;
+  inputBox.value = "";
 }
 
 function setVisibilityOn(id: string) {
@@ -191,18 +210,25 @@ function startSpinning(
     document.getElementById("numbers")
   );
 
-  const number$ = <Observable<[Number, Number]>>(
-    merge(observableArray).pipe(take(21))
-  );
+  let number$: Observable<[Number, Number]> = observableArray[0];
 
-  number$.subscribe((values: [Number, Number]) => {
+  for (let i = 1; i < observableArray.length; i++) {
+    number$ = number$.pipe(mergeWith(observableArray[i]));
+  }
+
+  number$.pipe(take(21)).subscribe((values: [Number, Number]) => {
+    console.log();
     lastNumber.textContent = values[0] + "";
     if (numbers.textContent === "") {
       numbers.textContent = values[0] + "";
     } else {
-      numbers.textContent += "," + values[0];
+      numbers.textContent += ", " + values[0];
     }
     showLatestBox(values[1]);
+    gameState.gameNumbers.push(values[0]);
+    if (gameState.gameNumbers.length == 21) {
+      endGame(controlFlow$, gameState);
+    }
   });
 }
 
@@ -226,4 +252,122 @@ function makeNumberObservables(
   return observableArray;
 }
 
-function showLatestBox(id: Number) {}
+function showLatestBox(id: Number) {
+  for (let i = 1; i <= 7; i++) {
+    const box: HTMLElement = document.getElementById("box" + i);
+    if (i != id) box.className = "box-inactive";
+    else box.className = "box-active";
+  }
+}
+
+function endGame(controlFlow$: Subject<String>, gameState: CurrentGameState) {
+  const score: Number = calculateScore(gameState);
+
+  controlFlow$.next("Closing...");
+  controlFlow$.complete();
+
+  setUpView("end");
+
+  updateInfo(score, gameState);
+}
+
+function calculateScore(gameState: CurrentGameState): Number {
+  gameState.gameNumbers.filter((x: Number) =>
+    gameState.playerNumbers.includes(x)
+  );
+  let score: number = 0;
+  let hits: number = 0;
+
+  gameState.gameNumbers.forEach((x: Number) => {
+    if (gameState.playerNumbers.includes(x)) {
+      gameState.playerNumbers = gameState.playerNumbers.splice(
+        gameState.playerNumbers.indexOf(x),
+        1
+      );
+      hits++;
+    }
+  });
+
+  for (let i = 0; i < hits; i++) {
+    score += 2000 * Math.random();
+  }
+
+  score = Math.round(score);
+
+  return score;
+}
+
+function updateInfo(score: Number, gameState: CurrentGameState) {
+  const scoreLabel: HTMLLabelElement = <HTMLLabelElement>(
+    document.getElementById("score")
+  );
+  scoreLabel.textContent = "SCORE: " + score;
+
+  if (gameState.currentHighestScore < score) {
+    gameState.currentHighestScore = score;
+
+    const currentHighestLabel: HTMLLabelElement = <HTMLLabelElement>(
+      document.getElementById("currentHighest")
+    );
+
+    currentHighestLabel.textContent = score + "";
+
+    if (score > gameState.player.highscore) {
+      const highscoreLabel: HTMLLabelElement = <HTMLLabelElement>(
+        document.getElementById("highscore")
+      );
+
+      highscoreLabel.textContent = score + "";
+
+      gameState.player.highscore = score;
+      updateScoreDB(gameState.player.id, score);
+    }
+  }
+}
+
+function updateScoreDB(id: Number, score: Number) {
+  const body = { highscore: score };
+  fetch(urlConst.URL + id, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  })
+    .then((response: Response) => {
+      if (!response.ok) throw new Error("PATCH error");
+      else console.log("PATCH ok");
+    })
+    .catch((err: Error) => console.log(err));
+}
+
+function setUpButtons(
+  router: Subject<[Number, User | null]>,
+  gameState: CurrentGameState
+) {
+  const playAgainButton: HTMLButtonElement = <HTMLButtonElement>(
+    document.getElementById("playAgainButton")
+  );
+
+  playAgainButton.onclick = () => {
+    gameState.playerNumbers = [];
+    gameState.gameNumbers = [];
+    setUpGame("beginning", gameState);
+  };
+
+  const scoreboardButton: HTMLButtonElement = <HTMLButtonElement>(
+    document.getElementById("scoreboardButton")
+  );
+
+  scoreboardButton.onclick = () => {
+    router.next([2, gameState.player]);
+  };
+
+  const logoutButtonL: HTMLButtonElement = <HTMLButtonElement>(
+    document.getElementById("logoutButton")
+  );
+
+  logoutButtonL.onclick = () => {
+    router.next([0, null]);
+  };
+}

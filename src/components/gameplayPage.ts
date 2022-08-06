@@ -76,7 +76,9 @@ function drawUserInfo(user: User, container: HTMLDivElement) {
   container.appendChild(
     createUserInfoRow("Highscore:", user.highscore, "highscore")
   );
-  container.appendChild(createUserInfoRow("Current score:", 0, "currentScore"));
+  container.appendChild(
+    createUserInfoRow("Current highest:", 0, "currentHighest")
+  );
 }
 
 function drawGameplay() {
@@ -131,6 +133,11 @@ function drawNumbersDisplay() {
   numbersLabel.className = "numbers";
   numbersLabel.id = "numbers";
   numbersContainer.appendChild(numbersLabel);
+
+  const scoreLabel: HTMLLabelElement = document.createElement("label");
+  scoreLabel.className = "minorTitle";
+  scoreLabel.id = "score";
+  numbersContainer.appendChild(scoreLabel);
 
   document.body.appendChild(numbersContainer);
 }

@@ -5,15 +5,19 @@ export class User {
     private _highscore: Number
   ) {}
 
-  get username() {
+  get username(): String {
     return this._username;
   }
 
-  get highscore() {
+  get highscore(): Number {
     return this._highscore;
   }
 
   set highscore(newHighscore: Number) {
     this._highscore = newHighscore;
+  }
+
+  get id(): Number {
+    return this._id;
   }
 }

@@ -267,6 +267,10 @@ body {
     margin: 1%;
     margin-left: 10%;
     margin-right: 10%;
+    justify-self: center;
+    align-self: center;
+    justify-content: center;
+    align-content: center;
 }
 
 .numbers {
