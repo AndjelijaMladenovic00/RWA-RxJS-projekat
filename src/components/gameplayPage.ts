@@ -124,7 +124,7 @@ function drawNumbersDisplay() {
   numbersContainer.className = "numbersContainer";
 
   const lastNumberLabel: HTMLLabelElement = document.createElement("label");
-  lastNumberLabel.className = "lastNumber";
+  lastNumberLabel.className = "minorTitle";
   lastNumberLabel.id = "lastNumber";
   numbersContainer.appendChild(lastNumberLabel);
 
@@ -148,7 +148,7 @@ function drawPlayerInputBoxes() {
 
   const playerInputBoxesContainer: HTMLDivElement =
     document.createElement("div");
-  playerInputBoxesContainer.className = "playerInputBoxesContainer";
+  playerInputBoxesContainer.className = "boxesContainer";
 
   let idBox: string = "";
   let idButton: string = "";
@@ -195,9 +195,15 @@ function drawInputBox(
 }
 
 function drawStartButton() {
+  const startButtonContainer: HTMLDivElement = document.createElement("div");
+  startButtonContainer.className = "playerInputContainer";
+
   const startButton: HTMLButtonElement = document.createElement("button");
   startButton.textContent = "START";
   startButton.className = "startButton";
   startButton.id = "startButton";
-  document.body.appendChild(startButton);
+
+  startButtonContainer.appendChild(startButton);
+
+  document.body.appendChild(startButtonContainer);
 }
