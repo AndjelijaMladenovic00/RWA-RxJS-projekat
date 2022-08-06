@@ -15,30 +15,35 @@ export function drawGameplayPage(
 }
 
 function drawHeader(user: User) {
-  const headerContainer = document.createElement("div");
-  headerContainer.className = "headerContainter";
+  const headerContainer: HTMLDivElement = document.createElement("div");
+  headerContainer.className = "headerContainer";
 
-  const headerSubContainerLeft = document.createElement("div");
-  headerSubContainerLeft.className = "headerSubContainerLeft";
+  const headerSubContainerLeft: HTMLDivElement = document.createElement("div");
+  headerSubContainerLeft.className = "headerSubContainer";
   headerContainer.appendChild(headerSubContainerLeft);
 
-  const headerSubContainerRight = document.createElement("div");
-  headerSubContainerRight.className = "headerSubContainerRight";
+  const headerSubContainerMiddle: HTMLDivElement =
+    document.createElement("div");
+  headerSubContainerMiddle.className = "headerSubContainer";
+  headerContainer.appendChild(headerSubContainerMiddle);
+
+  const headerSubContainerRight: HTMLDivElement = document.createElement("div");
+  headerSubContainerRight.className = "headerSubContainer";
   headerContainer.appendChild(headerSubContainerRight);
 
   const scoreboardButton = document.createElement("button");
-  scoreboardButton.className = "scoreboardButton";
+  scoreboardButton.className = "button";
   scoreboardButton.textContent = "Scoreboard";
   scoreboardButton.id = "scoreboardButton";
   headerSubContainerLeft.appendChild(scoreboardButton);
 
   const logoutButton = document.createElement("button");
-  logoutButton.className = "logoutButton";
+  logoutButton.className = "button";
   logoutButton.textContent = "Log out";
   logoutButton.id = "logoutButton";
-  headerSubContainerLeft.appendChild(logoutButton);
+  headerSubContainerRight.appendChild(logoutButton);
 
-  drawUserInfo(user, headerSubContainerRight);
+  drawUserInfo(user, headerSubContainerMiddle);
 
   document.body.appendChild(headerContainer);
 }

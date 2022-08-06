@@ -73,8 +73,6 @@ body {
     align-self: center;
     justify-content: center;
     justify-self: center;
-    visibility: hidden;
-    pointer-events: none;
 }
 
 .loginInputDiv {
@@ -98,10 +96,95 @@ body {
 .loginLabel {
     margin-left: 5%;
     color: aliceblue;
+    font-family: Inter, sans-serif;
 }
 
 .errorLabel {
     margin-top: 5%;
     color: red;
     visibility: hidden;
+}
+
+.headerContainer {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 20%;
+    background-color: #301B3F;
+    box-shadow:
+        inset 0 0 50px #fff,
+        inset 20px 0 80px rgb(80, 23, 80),
+        inset -20px 0 80px rgb(28, 89, 89),
+        inset 20px 0 300px rgb(80, 23, 80),
+        inset -20px 0 300px rgb(28, 89, 89),
+        0 0 20px #fff,
+        -10px 0 40px rgb(80, 23, 80),
+        10px 0 40px rgb(28, 89, 89);
+    justify-content: space-evenly;
+    align-content: center;
+    align-self: center;
+}
+
+.headerSubContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.button {
+    appearance: button;
+    background-color: #4D4AE8;
+    background-image: linear-gradient(180deg, rgba(255, 255, 255, .15), rgba(255, 255, 255, 0));
+    border: 1px solid #4D4AE8;
+    border-radius: 1rem;
+    box-shadow: rgba(255, 255, 255, 0.15) 0 1px 0 inset, rgba(46, 54, 80, 0.075) 0 1px 1px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-family: Inter, sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.5;
+    padding: .5rem 1rem;
+    text-align: center;
+    text-transform: none;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: middle;
+    display: flex;
+    width: 30%;
+    margin-left: 10%;
+    align-self: center;
+    justify-content: center;
+    justify-self: center;
+}
+
+.userInfoRow {
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+    justify-content: flex-start;
+    justify-self: flex-end;
+    align-content: center;
+}
+
+.userInfoRowLabel {
+    display: flex;
+    font-size: 100%;
+    width: 100%;
+    height: 100%;
+    font-family: Inter, sans-serif;
+    color: aliceblue;
+}
+
+.userInfoDataLabel {
+    font-family: Inter, sans-serif;
+    color: aliceblue;
 }
