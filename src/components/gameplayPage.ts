@@ -6,12 +6,11 @@ export function drawGameplayPage(
   router: Subject<[Number, User | null]>,
   user: User
 ) {
-  console.log(user);
   document.body.innerHTML = "";
   drawHeader(user);
   drawGameplay();
 
-  initGameplay(router);
+  initGameplay(router, user);
 }
 
 function drawHeader(user: User) {
@@ -84,7 +83,7 @@ function drawGameplay() {
   drawBoxes();
   drawNumbersDisplay();
   drawPlayerInputBoxes();
-  drawStartButton();
+  drawStartAndPlayAgainButton();
 }
 
 function drawBoxes() {
@@ -153,7 +152,7 @@ function drawPlayerInputBoxes() {
   let idBox: string = "";
   let idButton: string = "";
 
-  for (let i = 1; i < 7; i++) {
+  for (let i = 1; i <= 7; i++) {
     idBox = "inputBox" + i;
     idButton = "inputButton" + i;
     drawInputBox(idBox, idButton, playerInputBoxesContainer);
@@ -194,16 +193,23 @@ function drawInputBox(
   container.appendChild(inputBoxContainer);
 }
 
-function drawStartButton() {
+function drawStartAndPlayAgainButton() {
   const startButtonContainer: HTMLDivElement = document.createElement("div");
   startButtonContainer.className = "playerInputContainer";
 
   const startButton: HTMLButtonElement = document.createElement("button");
   startButton.textContent = "START";
-  startButton.className = "startButton";
+  startButton.className = "startAndPlayAgainButton";
   startButton.id = "startButton";
 
   startButtonContainer.appendChild(startButton);
+
+  const playAgainButton: HTMLButtonElement = document.createElement("button");
+  playAgainButton.textContent = "PLAY AGAIN";
+  playAgainButton.className = "startAndPlayAgainButton";
+  playAgainButton.id = "playAgainButton";
+
+  startButtonContainer.appendChild(playAgainButton);
 
   document.body.appendChild(startButtonContainer);
 }

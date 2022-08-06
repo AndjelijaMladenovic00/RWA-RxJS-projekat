@@ -295,13 +295,17 @@ body {
 }
 
 .inputBox {
-    width: 90%;
-    height: 90%;
+    width: 100%;
     text-align: center;
     font-size: 15px;
     border-radius: 5px;
     margin: 10%;
     align-self: center;
+}
+
+.inputBox:disabled {
+    background: white;
+    color: black;
 }
 
 .inputButton {
@@ -334,7 +338,7 @@ body {
     width: 50%;
 }
 
-.startButton {
+.startAndPlayAgainButton {
     appearance: button;
     background-color: #4D4AE8;
     background-image: linear-gradient(180deg, rgba(255, 255, 255, .15), rgba(255, 255, 255, 0));
@@ -364,4 +368,5 @@ body {
     justify-self: center;
     width: 30%;
     margin: 3%;
+    margin-bottom: 0;
 }

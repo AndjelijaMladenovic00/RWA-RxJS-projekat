@@ -19,10 +19,10 @@ import { route$ } from "./router";
 let loginInfo: loginData = { email: null, password: null };
 
 export function initLoginPage(router: Subject<[Number, User | null]>) {
-  const email$: Observable<String> = createEmailObservable();
-  const password$: Observable<String> = createPasswordObservable();
-
   const controlFlow$: Subject<String> = new Subject();
+
+  const email$: Observable<String> = createEmailObservable(controlFlow$);
+  const password$: Observable<String> = createPasswordObservable(controlFlow$);
 
   const login$: Observable<[String, String]> = combineLatest([
     email$,
@@ -41,19 +41,25 @@ export function initLoginPage(router: Subject<[Number, User | null]>) {
   });
 }
 
-function createEmailObservable(): Observable<String> {
+function createEmailObservable(
+  controlFlow$: Subject<String>
+): Observable<String> {
   const emailInput: HTMLElement = document.getElementById("emailInput");
   return fromEvent(emailInput, "input").pipe(
     debounceTime(200),
-    map((event: InputEvent) => (<HTMLInputElement>event.target).value)
+    map((event: InputEvent) => (<HTMLInputElement>event.target).value),
+    takeUntil(controlFlow$)
   );
 }
 
-function createPasswordObservable(): Observable<String> {
+function createPasswordObservable(
+  controlFlow$: Subject<String>
+): Observable<String> {
   const passwordInput: HTMLElement = document.getElementById("passwordInput");
   return fromEvent(passwordInput, "input").pipe(
     debounceTime(200),
-    map((event: InputEvent) => (<HTMLInputElement>event.target).value)
+    map((event: InputEvent) => (<HTMLInputElement>event.target).value),
+    takeUntil(controlFlow$)
   );
 }
 
@@ -92,11 +98,6 @@ function showErrorMessage() {
   const errorLabel = document.getElementById("errorLabel");
   errorLabel.style.visibility = "visible";
 }
-
-/*function clearErrorMessage() {
-  const errorLabel = document.getElementById("errorLabel");
-  errorLabel.style.visibility = "hidden";
-}*/
 
 function setUpLoginButton(
   button: HTMLButtonElement,
