@@ -216,20 +216,22 @@ function startSpinning(
     number$ = number$.pipe(mergeWith(observableArray[i]));
   }
 
-  number$.pipe(take(21)).subscribe((values: [Number, Number]) => {
-    console.log();
-    lastNumber.textContent = values[0] + "";
-    if (numbers.textContent === "") {
-      numbers.textContent = values[0] + "";
-    } else {
-      numbers.textContent += ", " + values[0];
-    }
-    showLatestBox(values[1]);
-    gameState.gameNumbers.push(values[0]);
-    if (gameState.gameNumbers.length == 21) {
-      endGame(controlFlow$, gameState);
-    }
-  });
+  number$
+    .pipe(debounceTime(200), take(21))
+    .subscribe((values: [Number, Number]) => {
+      console.log();
+      lastNumber.textContent = values[0] + "";
+      if (numbers.textContent === "") {
+        numbers.textContent = values[0] + "";
+      } else {
+        numbers.textContent += ", " + values[0];
+      }
+      showLatestBox(values[1]);
+      gameState.gameNumbers.push(values[0]);
+      if (gameState.gameNumbers.length == 21) {
+        endGame(controlFlow$, gameState);
+      }
+    });
 }
 
 function makeNumberObservables(
@@ -239,7 +241,7 @@ function makeNumberObservables(
 
   for (let i = 1; i <= 7; i++) {
     observableArray.push(
-      interval(Math.random() * 10000)
+      interval(Math.random() * 15000)
         .pipe(
           map((x: Number) => Math.floor(Math.random() * 39) + 1),
           distinct(),
