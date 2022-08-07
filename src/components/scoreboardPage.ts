@@ -42,6 +42,8 @@ function drawScoreboardHeader(router: Subject<[Number, User]>, user: User) {
   logoutButton.textContent = "Log out";
   headerSubContainerRight.appendChild(logoutButton);
 
+  document.body.appendChild(headerContainer);
+
   setUpButtons(router, user);
 }
 
