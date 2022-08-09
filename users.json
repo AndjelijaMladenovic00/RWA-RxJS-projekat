@@ -54,21 +54,56 @@
       "username": "user8",
       "email": "user8@gmail.com",
       "password": "user8",
-      "highscore": 8000
+      "highscore": 6900
     },
     {
       "id": 9,
       "username": "user9",
       "email": "user9@gmail.com",
       "password": "user9",
-      "highscore": 9000
+      "highscore": 4800
     },
     {
       "id": 10,
       "username": "user10",
       "email": "user10@gmail.com",
       "password": "user10",
-      "highscore": 10000
+      "highscore": 5100
+    },
+    {
+      "id": 11,
+      "username": "user11",
+      "email": "user11@gmail.com",
+      "password": "user11",
+      "highscore": 4523
+    },
+    {
+      "id": 12,
+      "username": "user12",
+      "email": "user12@gmail.com",
+      "password": "user12",
+      "highscore": 2345
+    },
+    {
+      "id": 13,
+      "username": "user13",
+      "email": "user13@gmail.com",
+      "password": "user13",
+      "highscore": 3456
+    },
+    {
+      "id": 14,
+      "username": "user14",
+      "email": "user14@gmail.com",
+      "password": "user14",
+      "highscore": 4589
+    },
+    {
+      "id": 15,
+      "username": "user15",
+      "email": "user15@gmail.com",
+      "password": "user15",
+      "highscore": 5432
     }
   ]
 }

@@ -16,6 +16,7 @@ export function showScoreboard(id: Number) {
       response.json().then((data: User[]) => {
         users = data
           .sort((a: User, b: User) => <number>a.highscore - <number>b.highscore)
+          .reverse()
           .slice(0, 10);
 
         users.forEach((user: User) => {

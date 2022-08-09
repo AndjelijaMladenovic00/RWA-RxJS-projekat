@@ -212,24 +212,27 @@ function startSpinning(
 
   let number$: Observable<[Number, Number]> = observableArray[0];
 
-  for (let i = 1; i < observableArray.length; i++) {
+  /* for (let i = 1; i < observableArray.length; i++) {
     number$ = number$.pipe(mergeWith(observableArray[i]));
-  }
+  }*/
+
+  number$ = number$.pipe(mergeWith(...observableArray.slice(1)));
 
   number$
     .pipe(debounceTime(200), take(21))
     .subscribe((values: [Number, Number]) => {
-      console.log();
-      lastNumber.textContent = values[0] + "";
-      if (numbers.textContent === "") {
-        numbers.textContent = values[0] + "";
-      } else {
-        numbers.textContent += ", " + values[0];
-      }
-      showLatestBox(values[1]);
-      gameState.gameNumbers.push(values[0]);
-      if (gameState.gameNumbers.length == 21) {
-        endGame(controlFlow$, gameState);
+      if (gameState.gameNumbers.length < 21) {
+        lastNumber.textContent = values[0] + "";
+        if (numbers.textContent === "") {
+          numbers.textContent = values[0] + "";
+        } else {
+          numbers.textContent += ", " + values[0];
+        }
+        showLatestBox(values[1]);
+        gameState.gameNumbers.push(values[0]);
+        if (gameState.gameNumbers.length == 21) {
+          endGame(controlFlow$, gameState);
+        }
       }
     });
 }
