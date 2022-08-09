@@ -212,10 +212,6 @@ function startSpinning(
 
   let number$: Observable<[Number, Number]> = observableArray[0];
 
-  /* for (let i = 1; i < observableArray.length; i++) {
-    number$ = number$.pipe(mergeWith(observableArray[i]));
-  }*/
-
   number$ = number$.pipe(mergeWith(...observableArray.slice(1)));
 
   number$
