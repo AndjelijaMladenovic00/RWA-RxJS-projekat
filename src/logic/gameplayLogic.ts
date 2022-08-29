@@ -17,7 +17,7 @@ import { gameSetup } from "../enums/gameSetup";
 import { urlConst } from "../constants/url";
 
 export function initGameplay(
-  router: Subject<[Number, User | null]>,
+  router: Subject<[number, User | null]>,
   user: User
 ) {
   let gameState: CurrentGameState = new CurrentGameState();
@@ -108,13 +108,13 @@ function enableButton(id: string) {
 }
 
 function setUpLogic(gameState: CurrentGameState) {
-  const controlFlow$: Subject<String> = new Subject();
+  const controlFlow$: Subject<string> = new Subject();
 
-  const observableArray: Observable<Number>[] = makeOkObservables(controlFlow$);
+  const observableArray: Observable<number>[] = makeOkObservables(controlFlow$);
 
   forkJoin(observableArray)
     .pipe(take(1))
-    .subscribe((numberArray: Number[]) => {
+    .subscribe((numberArray: number[]) => {
       gameState.playerNumbers = numberArray;
       setUpStartButton(controlFlow$, gameState);
     });
@@ -122,8 +122,8 @@ function setUpLogic(gameState: CurrentGameState) {
 
 function makeOkObservables(
   controlFlow$: Subject<String>
-): Observable<Number>[] {
-  let observableArray: Observable<Number>[] = [];
+): Observable<number>[] {
+  let observableArray: Observable<number>[] = [];
   let inputId: string = "";
   let buttonId: string = "";
 
@@ -144,7 +144,7 @@ function makeOkObservables(
         map((event: InputEvent) => parseInt(inputBox.value)),
         takeUntil(controlFlow$)
       )
-      .subscribe((inputNumber: Number) => {
+      .subscribe((inputNumber: number) => {
         if (checkInput(inputNumber)) {
           setVisibilityOn(inputButton.id);
           enableButton(inputButton.id);
@@ -160,7 +160,7 @@ function makeOkObservables(
       inputBox.disabled = true;
     };
 
-    const click$: Observable<Number> = fromEvent(inputButton, "click").pipe(
+    const click$: Observable<number> = fromEvent(inputButton, "click").pipe(
       takeUntil(controlFlow$),
       map((event: Event) => parseInt(inputBox.value)),
       take(1)
@@ -172,13 +172,13 @@ function makeOkObservables(
   return observableArray;
 }
 
-function checkInput(inputNumber: Number): boolean {
+function checkInput(inputNumber: number): boolean {
   if (inputNumber > 0 && inputNumber < 40) return true;
   else return false;
 }
 
 function setUpStartButton(
-  controlFlow$: Subject<String>,
+  controlFlow$: Subject<string>,
   gameState: CurrentGameState
 ) {
   setVisibilityOn("startButton");
@@ -197,10 +197,10 @@ function setUpStartButton(
 }
 
 function startSpinning(
-  controlFlow$: Subject<String>,
+  controlFlow$: Subject<string>,
   gameState: CurrentGameState
 ) {
-  const observableArray: Observable<[Number, Number]>[] =
+  const observableArray: Observable<[number, number]>[] =
     makeNumberObservables(controlFlow$);
 
   const lastNumber: HTMLLabelElement = <HTMLLabelElement>(
@@ -210,13 +210,13 @@ function startSpinning(
     document.getElementById("numbers")
   );
 
-  let number$: Observable<[Number, Number]> = observableArray[0];
+  let number$: Observable<[number, number]> = observableArray[0];
 
   number$ = number$.pipe(mergeWith(...observableArray.slice(1)));
 
   number$
     .pipe(debounceTime(200), take(21))
-    .subscribe((values: [Number, Number]) => {
+    .subscribe((values: [number, number]) => {
       if (gameState.gameNumbers.length < 21) {
         lastNumber.textContent = values[0] + "";
         if (numbers.textContent === "") {
@@ -234,9 +234,9 @@ function startSpinning(
 }
 
 function makeNumberObservables(
-  controlFlow$: Subject<String>
-): Observable<[Number, Number]>[] {
-  let observableArray: Observable<[Number, Number]>[] = [];
+  controlFlow$: Subject<string>
+): Observable<[number, number]>[] {
+  let observableArray: Observable<[number, number]>[] = [];
 
   for (let i = 1; i <= 7; i++) {
     observableArray.push(
@@ -246,14 +246,14 @@ function makeNumberObservables(
           distinct(),
           takeUntil(controlFlow$)
         )
-        .pipe(map((x: Number) => [x, i]))
+        .pipe(map((x: number) => [x, i]))
     );
   }
 
   return observableArray;
 }
 
-function showLatestBox(id: Number) {
+function showLatestBox(id: number) {
   for (let i = 1; i <= 7; i++) {
     const box: HTMLElement = document.getElementById("box" + i);
     if (i != id) box.className = "box-inactive";
@@ -261,8 +261,8 @@ function showLatestBox(id: Number) {
   }
 }
 
-function endGame(controlFlow$: Subject<String>, gameState: CurrentGameState) {
-  const score: Number = calculateScore(gameState);
+function endGame(controlFlow$: Subject<string>, gameState: CurrentGameState) {
+  const score: number = calculateScore(gameState);
 
   controlFlow$.next("Closing...");
   controlFlow$.complete();
@@ -272,14 +272,14 @@ function endGame(controlFlow$: Subject<String>, gameState: CurrentGameState) {
   updateInfo(score, gameState);
 }
 
-function calculateScore(gameState: CurrentGameState): Number {
-  gameState.gameNumbers.filter((x: Number) =>
+function calculateScore(gameState: CurrentGameState): number {
+  gameState.gameNumbers.filter((x: number) =>
     gameState.playerNumbers.includes(x)
   );
   let score: number = 0;
   let hits: number = 0;
 
-  gameState.gameNumbers.forEach((x: Number) => {
+  gameState.gameNumbers.forEach((x: number) => {
     if (gameState.playerNumbers.includes(x)) {
       gameState.playerNumbers = gameState.playerNumbers.splice(
         gameState.playerNumbers.indexOf(x),
@@ -298,7 +298,7 @@ function calculateScore(gameState: CurrentGameState): Number {
   return score;
 }
 
-function updateInfo(score: Number, gameState: CurrentGameState) {
+function updateInfo(score: number, gameState: CurrentGameState) {
   const scoreLabel: HTMLLabelElement = <HTMLLabelElement>(
     document.getElementById("score")
   );
@@ -326,7 +326,7 @@ function updateInfo(score: Number, gameState: CurrentGameState) {
   }
 }
 
-function updateScoreDB(id: Number, score: Number) {
+function updateScoreDB(id: number, score: number) {
   const body = { highscore: score };
   fetch(urlConst.URL + id, {
     method: "PATCH",
@@ -343,7 +343,7 @@ function updateScoreDB(id: Number, score: Number) {
 }
 
 function setUpButtons(
-  router: Subject<[Number, User | null]>,
+  router: Subject<[number, User | null]>,
   gameState: CurrentGameState
 ) {
   const playAgainButton: HTMLButtonElement = <HTMLButtonElement>(

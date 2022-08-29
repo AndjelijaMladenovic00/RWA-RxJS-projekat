@@ -2,7 +2,7 @@ import { Subject } from "rxjs";
 import { initLoginPage } from "../logic/loginLogic";
 import { User } from "../models/user";
 
-export function drawLoginPage(router: Subject<[Number, User | null]>) {
+export function drawLoginPage(router: Subject<[number, User | null]>) {
   document.body.innerHTML = "";
 
   const loginContainer: HTMLElement = document.createElement("div");

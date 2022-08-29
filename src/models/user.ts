@@ -1,23 +1,23 @@
 export class User {
   constructor(
-    private _id: Number,
-    private _username: String,
-    private _highscore: Number
+    private _id: number,
+    private _username: string,
+    private _highscore: number
   ) {}
 
-  get username(): String {
+  get username(): string {
     return this._username;
   }
 
-  get highscore(): Number {
+  get highscore(): number {
     return this._highscore;
   }
 
-  set highscore(newHighscore: Number) {
+  set highscore(newHighscore: number) {
     this._highscore = newHighscore;
   }
 
-  get id(): Number {
+  get id(): number {
     return this._id;
   }
 }

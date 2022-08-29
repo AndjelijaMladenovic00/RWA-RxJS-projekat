@@ -4,7 +4,7 @@ import { User } from "../models/user";
 import { route$ } from "./router";
 import { drawScoreboard } from "../components/scoreboardPage";
 
-export function gotoRoute(page: Number, user?: User) {
+export function gotoRoute(page: number, user?: User) {
   switch (page) {
     case 0: {
       drawLoginPage(route$);

@@ -1,7 +1,7 @@
 import { urlConst } from "../constants/url";
 import { User } from "../models/user";
 
-export function showScoreboard(id: Number) {
+export function showScoreboard(id: number) {
   let users: User[] = [];
 
   const dataPromise: Promise<Response> = fetch(urlConst.URL, {
@@ -15,7 +15,7 @@ export function showScoreboard(id: Number) {
 
       response.json().then((data: User[]) => {
         users = data
-          .sort((a: User, b: User) => <number>a.highscore - <number>b.highscore)
+          .sort((a: User, b: User) => a.highscore - b.highscore)
           .reverse()
           .slice(0, 10);
 
@@ -29,7 +29,7 @@ export function showScoreboard(id: Number) {
     });
 }
 
-function drawScore(user: User, position: Number, id: Number) {
+function drawScore(user: User, position: number, id: number) {
   const scoreContainer: HTMLDivElement = document.createElement("div");
   scoreContainer.className = "scoreContainer";
 

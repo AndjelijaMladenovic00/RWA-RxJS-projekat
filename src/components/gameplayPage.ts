@@ -3,7 +3,7 @@ import { initGameplay } from "../logic/gameplayLogic";
 import { User } from "../models/user";
 
 export function drawGameplayPage(
-  router: Subject<[Number, User | null]>,
+  router: Subject<[number, User | null]>,
   user: User
 ) {
   document.body.innerHTML = "";
@@ -49,7 +49,7 @@ function drawHeader(user: User) {
 
 function createUserInfoRow(
   label: string,
-  data: String | Number,
+  data: string | number,
   id: string
 ): HTMLDivElement {
   const rowDiv: HTMLDivElement = document.createElement("div");

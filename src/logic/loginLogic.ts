@@ -6,7 +6,6 @@ import {
   Observable,
   takeUntil,
   Subject,
-  Subscription,
   from,
   switchMap,
   take,
@@ -18,13 +17,13 @@ import { route$ } from "./router";
 
 let loginInfo: loginData = { email: null, password: null };
 
-export function initLoginPage(router: Subject<[Number, User | null]>) {
-  const controlFlow$: Subject<String> = new Subject();
+export function initLoginPage(router: Subject<[number, User | null]>) {
+  const controlFlow$: Subject<string> = new Subject();
 
-  const email$: Observable<String> = createEmailObservable(controlFlow$);
-  const password$: Observable<String> = createPasswordObservable(controlFlow$);
+  const email$: Observable<string> = createEmailObservable(controlFlow$);
+  const password$: Observable<string> = createPasswordObservable(controlFlow$);
 
-  const login$: Observable<[String, String]> = combineLatest([
+  const login$: Observable<[string, string]> = combineLatest([
     email$,
     password$,
   ]).pipe(takeUntil(controlFlow$));
@@ -33,7 +32,7 @@ export function initLoginPage(router: Subject<[Number, User | null]>) {
 
   setUpLoginButton(<HTMLButtonElement>loginButton, controlFlow$);
 
-  const loginSubscription = login$.subscribe((values: String[]) => {
+  const loginSubscription = login$.subscribe((values: string[]) => {
     loginInfo.email = values[0];
     loginInfo.password = values[1];
 
@@ -42,8 +41,8 @@ export function initLoginPage(router: Subject<[Number, User | null]>) {
 }
 
 function createEmailObservable(
-  controlFlow$: Subject<String>
-): Observable<String> {
+  controlFlow$: Subject<string>
+): Observable<string> {
   const emailInput: HTMLElement = document.getElementById("emailInput");
   return fromEvent(emailInput, "input").pipe(
     debounceTime(200),
@@ -53,8 +52,8 @@ function createEmailObservable(
 }
 
 function createPasswordObservable(
-  controlFlow$: Subject<String>
-): Observable<String> {
+  controlFlow$: Subject<string>
+): Observable<string> {
   const passwordInput: HTMLElement = document.getElementById("passwordInput");
   return fromEvent(passwordInput, "input").pipe(
     debounceTime(200),
@@ -78,7 +77,7 @@ function changeButtonProperties(button: HTMLButtonElement) {
   }
 }
 
-function getUser(email: String, password: String): Observable<User[]> {
+function getUser(email: string, password: string): Observable<User[]> {
   const userPromise: Promise<User[]> = fetch(
     `${urlConst.URL}?email=${email}&password=${password}`
   )
@@ -101,7 +100,7 @@ function showErrorMessage() {
 
 function setUpLoginButton(
   button: HTMLButtonElement,
-  controlFlow$: Subject<String>
+  controlFlow$: Subject<string>
 ) {
   button.style.visibility = "hidden";
   button.style.pointerEvents = "none";
@@ -111,7 +110,7 @@ function setUpLoginButton(
     .subscribe((users: User[]) => checkUserAndLogin(users[0], controlFlow$));
 }
 
-function checkUserAndLogin(user: User, controlFlow$: Subject<String>) {
+function checkUserAndLogin(user: User, controlFlow$: Subject<string>) {
   if (
     user != null &&
     user != undefined &&
